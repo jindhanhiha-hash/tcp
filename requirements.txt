@@ -1,0 +1,17 @@
+## TCP bot runtime dependencies
+requests>=2.31,<3
+httpx>=0.27,<1
+google>=3.0,<4
+protobuf>=4.25,<7
+pycryptodome>=3.20,<4
+psutil>=5.9,<7
+PyJWT>=2.8,<3
+urllib3>=2.2,<3
+protobuf-decoder>=0.1,<1
+pytz>=2024.1,<2027
+aiohttp>=3.9,<4
+cfonts>=1.5,<2
+Flask>=3.0,<4
+python-dotenv>=1.0,<2
+
+## Node control-panel dependencies are installed separately with npm.

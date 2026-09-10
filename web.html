@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TCP Bot Control Panel</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;background:#111827;color:#f9fafb}
+    button{margin:.25rem;padding:.65rem 1rem;border:0;border-radius:.4rem;cursor:pointer} .start{background:#22c55e}.stop{background:#f59e0b}.restart{background:#3b82f6;color:#fff}.clear{background:#6b7280;color:#fff}
+    #status{font-weight:700} pre{background:#030712;border:1px solid #374151;border-radius:.5rem;padding:1rem;min-height:360px;white-space:pre-wrap;overflow:auto}
+  </style>
+</head>
+<body>
+  <h1>TCP Bot Control Panel</h1>
+  <p>Status: <span id="status">Loading…</span></p>
+  <button class="start" onclick="call('/api/start')">Start</button>
+  <button class="stop" onclick="call('/api/stop')">Stop</button>
+  <button class="restart" onclick="call('/api/restart')">Restart</button>
+  <button class="clear" onclick="call('/api/clear-console')">Clear log</button>
+  <h2>Console</h2><pre id="log"></pre>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const status = document.getElementById('status'), log = document.getElementById('log');
+    async function call(url){ await fetch(url,{method:'POST'}); refresh(); }
+    async function refresh(){ const r=await fetch('/api/status'); const d=await r.json(); status.textContent=d.is_running?'Running':'Stopped'; }
+    const socket=io(); socket.on('status',d=>status.textContent=d.isRunning?'Running':'Stopped'); socket.on('console_output',d=>{log.textContent += d.data+'\n'; log.scrollTop=log.scrollHeight;});
+    refresh();
+  </script>
+</body>
+</html>
