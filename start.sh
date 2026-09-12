@@ -21,7 +21,9 @@ if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ ! -d node_modules ]]; then
+RUN_MODE="${1:-panel}"
+
+if [[ "$RUN_MODE" != "bot" && ! -d node_modules ]]; then
   echo "Installing Node.js control-panel dependencies..."
   npm install --no-audit --no-fund
 fi
@@ -44,5 +46,9 @@ export TCP_PANEL_HOST="${TCP_PANEL_HOST:-0.0.0.0}"
 export TCP_PANEL_PORT="${TCP_PANEL_PORT:-8080}"
 export AUTO_START_BOT="${AUTO_START_BOT:-0}"
 export BOT_TIMEOUT_SECONDS
+
+if [[ "$RUN_MODE" == "bot" ]]; then
+  exec python run_bot.py
+fi
 
 exec node server.js
