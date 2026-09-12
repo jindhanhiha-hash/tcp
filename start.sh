@@ -23,6 +23,14 @@ fi
 
 RUN_MODE="${1:-panel}"
 
+# Python-only bot hosters usually do not provide npm. In that environment,
+# run the worker directly instead of failing while trying to install the
+# optional Node.js control-panel dependencies.
+if [[ "$RUN_MODE" == "panel" && ! -x "$(command -v npm 2>/dev/null || true)" ]]; then
+  echo "npm not found; using Python worker mode."
+  RUN_MODE="bot"
+fi
+
 if [[ "$RUN_MODE" != "bot" && ! -d node_modules ]]; then
   echo "Installing Node.js control-panel dependencies..."
   npm install --no-audit --no-fund
