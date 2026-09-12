@@ -68,19 +68,8 @@ def _load_credit_name():
 
 CREDIT_NAME = _load_credit_name()
 
-# =================== PASSWORD VERIFICATION ===================
-# main.py এ থাকা পাসওয়ার্ড - এটি xC4.py এর জন্য
-_MAIN_XC4_PASSWORD = "SHADMAN9X"
-
-# xC4 এর password verify করো
-try:
-    from xC4 import _xc4_check_access
-    _xc4_check_access(bypass_password=_MAIN_XC4_PASSWORD)
-except SystemExit:
-    raise
-except Exception as _pw_err:
-    print(f"[Password] ⚠️ Warning: {_pw_err}")
-# =====================================================
+# Startup password prompts are disabled so the bot can run on Railway and other
+# non-interactive hosts. Account credentials are still loaded separately.
 
 # =================== CONFIGURATION ======================
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  

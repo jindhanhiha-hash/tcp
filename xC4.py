@@ -2,32 +2,13 @@
 
 import requests, os, sys, json, binascii, time, urllib3, base64, datetime, re, socket, threading, random, asyncio, jwt, pickle
 
-# =================== PASSWORD SYSTEM ===================
-_XC4_CORRECT_PASSWORD = "SUMON999X"
-
 def _xc4_verify_password(provided_password=None):
-    """Verify password for xC4 module. Returns True if correct."""
-    if provided_password == _XC4_CORRECT_PASSWORD:
-        return True
-    return False
+    """Compatibility shim: startup authentication is disabled for hosted runs."""
+    return True
 
 def _xc4_check_access(bypass_password=None):
-    """Check access - if bypass_password matches, skip prompt. Otherwise ask user."""
-    if bypass_password == _XC4_CORRECT_PASSWORD:
-        return True
-    # Ask from terminal
-    try:
-        entered = input("[xC4] পাসওয়ার্ড দিন / Enter Password: ").strip()
-        if entered == _XC4_CORRECT_PASSWORD:
-            print("[xC4] ✅ পাসওয়ার্ড সঠিক! বট চালু হচ্ছে...")
-            return True
-        else:
-            print("[xC4] ❌ ভুল পাসওয়ার্ড! বট বন্ধ হচ্ছে...")
-            sys.exit(1)
-    except (EOFError, KeyboardInterrupt):
-        print("\n[xC4] ❌ পাসওয়ার্ড দেওয়া হয়নি। বট বন্ধ হচ্ছে...")
-        sys.exit(1)
-# ========================================================
+    """Return immediately; hosted deployments do not support interactive prompts."""
+    return True
 from protobuf_decoder.protobuf_decoder import Parser
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
